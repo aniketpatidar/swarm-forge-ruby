@@ -144,7 +144,7 @@
 
 (def receive-modes #{"task" "batch"})
 (def propagation-modes #{"forward-only" "back-one" "back-all"})
-(def known-agents #{"claude" "codex" "copilot" "grok"})
+(def known-agents #{"claude" "codex" "copilot" "grok" "opencode"})
 
 (defn receive-fields [trailing]
   (let [[receive-mode after-receive]
@@ -511,6 +511,9 @@
                                 (yolo-flag agent row) "-n " (sq (str "SwarmForge " display)) " "
                                 (extra-args-prefix row)
                                 (when initial-prompt? prompt))
+                  "opencode" (str "opencode " (sq (str role-worktree)) " "
+                                 (str/replace (extra-args-prefix row) #"--yolo" "--auto")
+                                 (when initial-prompt? (str " --prompt " prompt)))
                   "codex" (str "codex -C " (sq (str role-worktree)) " "
                                (no-alt-screen-flag agent row) (yolo-flag agent row)
                                (extra-args-prefix row)
@@ -530,7 +533,7 @@
            " " (sq (:tmux-socket ctx))
            " " (sq (str (:window-ids-file ctx)))
            (apply str (map #(str " " (sq (:session %))) (:roles ctx)))
-           " >/dev/null 2>&1 &!; exit $exit_code"))))
+           " >/dev/null 2>&1 & exit $exit_code"))))
 
 (defn codex-home []
   (or (not-empty (System/getenv "CODEX_HOME"))
