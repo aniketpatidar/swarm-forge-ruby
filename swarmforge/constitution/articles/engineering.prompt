@@ -19,7 +19,7 @@ When no language is specified for a project, default to Ruby on Rails.
 ### Ruby/Rails Project Defaults
 
 - Use Rails conventions throughout: MVC, ActiveRecord, idiomatic Ruby 3.x+.
-- Write Minitest tests (not RSpec, not Capybara, no system tests). Use fixtures.
+- Write Minitest tests (no RSpec). Use fixtures. Use Rails System Tests (Capybara/Cuprite) for acceptance specifications.
 - Use Hotwire (Turbo + Stimulus) for frontend interactivity — no separate SPA framework.
 - Follow 37signals/Basecamp Rails patterns for controllers, models, views, and testing (see Architecture Patterns below).
 - Run `bundle exec brakeman` before every handoff.
