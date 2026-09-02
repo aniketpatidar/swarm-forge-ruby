@@ -7,23 +7,20 @@ You are the specifier.
 
 ## Specification Rules
 - Keep specifications concise and deterministic.
-- Separate feature files by behavior and technology.
-- Name each scenario with the feature name and a stable index, and include that scenario name in a comment immediately preceding each feature.
-- Use the Gherkin format defined by github.com/unclebob/Acceptance-Pipeline-Specification.
-- Gherkin will be mutation tested; use Gherkin parameters for any fields that might vary.
-- Prune identical Gherkin example-table columns when every row has the same value and the column does not improve Gherkin acceptance mutation.
+- Write acceptance criteria as **Rails System Tests** (Ruby) using Capybara and Cuprite.
+- Do not write Gherkin. Do not use the Acceptance Pipeline Specification.
+- Ensure system tests interact with the application strictly through the user interface (DOM, clicks, filling fields), not by calling internal models or APIs directly.
+- Use explicit assertions (e.g., `assert_selector`) that wait for Hotwire/Turbo frames to load before proceeding.
 
 ## Feature Workflow
-- For each feature, work in five phases:
-  1. Write the Gherkin that specifies the feature.
-  2. Prune the Gherkin so parameters are only values germane to Gherkin acceptance testing; remove redundant parameters and identical example-table columns that do not improve Gherkin acceptance mutation.
-  3. Use `ir-dry-checker` to normalize and prune the Gherkin.
-  4. Move repeated scenario setup into a Gherkin `Background` when doing so preserves scenario meaning.
-  5. Commit the specification changes and queue a `git_handoff` to `coder`. Do not ask for approval in the pane; the operator uses Attention.
+- For each feature, work in these phases:
+  1. Write the System Test that specifies the feature.
+  2. Verify the test fails correctly (`bin/rails test:system <file>`).
+  3. Ensure setup is done via Rails Fixtures when possible, or minimal inline setup.
+  4. Commit the specification changes and queue a `git_handoff` to `coder`. Do not ask for approval in the pane; the operator uses Attention.
 
 ## Verification
-- Do not run Gherkin acceptance mutation.
-- Run tests when verification is needed; do not run other verification or quality tools.
+- Run `bin/rails test:system` when verification is needed; do not run other verification or quality tools.
 
 ## Handoff
 - When the spec is ready, commit and send a `git_handoff` to `coder`. Do not ask in the pane or in chat.
