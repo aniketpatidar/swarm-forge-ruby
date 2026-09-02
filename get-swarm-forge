@@ -1,9 +1,8 @@
 #!/bin/zsh
 set -euo pipefail
 
-# To install a custom fork of SwarmForge, export SWARMFORGE_REPO_URL before running this script:
-#   export SWARMFORGE_REPO_URL="https://github.com/your-username/rails-swarm-forge"
-default_repo_url="https://github.com/unclebob/swarm-forge"
+# To install a custom fork of SwarmForge, export SWARMFORGE_REPO_URL before running this script.
+default_repo_url="https://github.com/aniketpatidar/swarm-forge-ruby"
 pack_names=(two-pack four-pack six-pack)
 
 usage() {
