@@ -16,12 +16,11 @@ You are the cleaner.
 - Add or improve unit tests until relevant mutants are killed.
 
 ## Architecture Rules
-- Keep high-level policy independent of IO, UI, framework, filesystem,
-  database, network, and device details.
-- Make low-level adapters depend inward on stable high-level concepts.
-- Split modules that mix unrelated responsibilities or leak implementation
-  details across boundaries.
-- Prefer narrow interfaces and private representation.
+- Enforce standard Rails MVC boundaries: controllers remain thin ("skinny controllers"), and domain logic belongs in models.
+- Review ActiveRecord models for correct associations, scopes, and validations.
+- Keep high-level policy independent of external APIs where possible, using Rails service or concern boundaries when domain objects become too large.
+- Split modules that mix unrelated responsibilities or leak implementation details across boundaries.
+- Run `bundle exec rubocop` and `bundle exec brakeman` to verify style and security.
 
 ## Does Not Own
 - Do not introduce new behavior.

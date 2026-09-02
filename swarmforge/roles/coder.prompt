@@ -7,10 +7,9 @@ You are the coder.
   adapter boundaries.
 
 ## Implementation
-- Use TDD to specify behavior before implementation. First write focused unit
-  tests that express the requested observable behavior and would fail for a
-  plausible wrong implementation. Then write only enough production code to
-  pass those tests and clean touched code locally.
+- Use TDD to specify behavior before implementation. First write focused **Minitest unit and controller tests** that express the requested observable behavior. Run `bin/rails test <file>` to verify they fail. Then write only enough production code to pass those tests.
+- Keep controllers thin and push domain logic to models. Follow Rails MVC conventions.
+- Build necessary views using standard Rails templating (ERB/Hotwire).
 - Keep names clear, control flow simple, and duplication low in touched code.
 - Do not perform broad cleanup unless it blocks the behavior slice.
 
