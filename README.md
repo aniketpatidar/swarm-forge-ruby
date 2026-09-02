@@ -4,11 +4,13 @@ Do not spend any money on a bankrbot SWARM token.
 
 # SwarmForge
 
-**A disciplined tmux-based agent orchestration platform that turns swarms of AI agents into reliable, professional software engineers.**
+**A Ruby on Rails–focused fork of [unclebob/swarm-forge](https://github.com/unclebob/swarm-forge): a disciplined tmux-based agent orchestration platform that turns swarms of AI agents into reliable, professional software engineers.**
 
 ## Intent
 
 This `main` branch is documentary: it explains the system and carries the shared operational scripts and default constitution articles. Pack branches (`two-pack`, `four-pack`, `six-pack`) are templates. `get-swarm-forge` installs all of them into a forge `packs/` directory; **New Project** instantiates one pack into `projects/<name>/`.
+
+The fork is configured for Ruby on Rails 8 projects: agents follow Rails MVC and ActiveRecord conventions, write **Minitest** with fixtures (no RSpec, no FactoryBot), use **Hotwire (Turbo + Stimulus)** for the frontend, and express acceptance criteria as **Rails System Tests** (Capybara/Cuprite) run with `bin/rails test:system` — not Gherkin. The shared Rails engineering guidelines live in the `engineering.prompt` constitution article on `main` and are copied into every installed pack by `get-swarm-forge`.
 
 SwarmForge is an agent coordination system that facilitates communication between agents working in different git worktrees.
 
@@ -20,21 +22,21 @@ Pack templates live on dedicated branches. Each branch contains the `swarmforge/
 
 ### `two-pack`
 
-`two-pack` is the quick backend workflow. Use it for small tasks that benefit from fast coding without the overhead of Gherkin and acceptance testing, while still preserving backend refactoring and hardening.
+`two-pack` is the quick backend workflow. Use it for small tasks that benefit from fast coding without the overhead of specification and acceptance testing, while still preserving backend refactoring and hardening.
 
-- `coder` implements requested behavior with TDD and unit tests.
-- `cleaner` batches coder handoffs and performs cleanup, CRAP and DRY review, architectural review, encapsulation and separation-of-concerns fixes, and language mutation hardening.
+- `coder` implements requested behavior with TDD, writing Minitest unit and controller tests (`bin/rails test`) and keeping controllers thin with Rails MVC and Hotwire views.
+- `cleaner` batches coder handoffs and performs cleanup, CRAP and DRY review, architectural review, encapsulation and separation-of-concerns fixes, ActiveRecord model review, and language mutation hardening (running `rubocop` and `brakeman`).
 
 The card moves `coder` -> `cleaner`, then to Done. Cleaner also sends a merge-only copy back to coder. Use this branch when you want a tight implementation/refinement loop without specification, QA, property-test, or acceptance-test roles.
 
 ### `four-pack`
 
-`four-pack` is the compact specification workflow. Use it for moderate projects that require Gherkin specification and some architectural consideration without splitting every quality gate into its own agent:
+`four-pack` is the compact specification workflow. Use it for moderate projects that require a Rails System Test acceptance specification and some architectural consideration without splitting every quality gate into its own agent:
 
-- `specifier` turns user intent into precise Gherkin acceptance specifications and asks for approval before handoff.
-- `coder` implements approved behavior slices with TDD, unit tests, and generated acceptance tests.
+- `specifier` turns user intent into precise **Rails System Tests** (Capybara/Cuprite) and asks for approval before handoff. It does not write Gherkin.
+- `coder` implements approved behavior slices with TDD, Minitest unit tests, and the system tests.
 - `refactorer` performs behavior-preserving cleanup, coverage improvement, CRAP and DRY review, mutation-site scans, and property-test support.
-- `architect` owns high-level structure, dependency direction, mutation hardening, DRY review, soft Gherkin mutation, and final completion notification.
+- `architect` owns high-level structure, dependency direction, mutation hardening, DRY review, Rails MVC boundaries, and final completion notification.
 
 The card moves `specifier` -> `coder` -> `refactorer` -> `architect`, then to Done. Refactorer also sends a merge-only copy back to coder. Architect also sends merge-only copies to every earlier role. Use this branch when you want disciplined development without splitting cleanup, architecture, hardening, and QA into separate agents.
 
@@ -42,12 +44,12 @@ The card moves `specifier` -> `coder` -> `refactorer` -> `architect`, then to Do
 
 `six-pack` is the full workflow. Use it for major projects that require full specification, up-front QA, backend verification, and significant architectural consideration. It separates each major quality gate into its own role:
 
-- `specifier` turns user intent into accepted Gherkin specifications and end-to-end QA procedures.
-- `coder` implements approved behavior slices with TDD, unit tests, and generated acceptance tests.
+- `specifier` turns user intent into accepted **Rails System Tests** (Capybara/Cuprite) that also serve as the end-to-end QA suite. It does not write Gherkin.
+- `coder` implements approved behavior slices with TDD, Minitest unit tests, and the system tests.
 - `cleaner` performs local behavior-preserving cleanup, coverage improvement, CRAP and DRY review, and mutation-site scans.
 - `architect` reviews module structure, boundaries, dependency direction, and property-test coverage.
-- `hardender` performs mutation hardening, language mutation, CRAP and DRY verification, and soft Gherkin mutation.
-- `QA` converts the specifier's QA procedures into executable scripts, runs final user-interface verification, checks handoff consistency, and sends completion notifications.
+- `hardender` performs mutation hardening, language mutation, CRAP and DRY verification.
+- `QA` executes the specifier's Rails System Tests (`bin/rails test:system`) as the end-to-end QA suite, runs final user-interface (Hotwire/Turbo) verification, checks handoff consistency, and sends completion notifications.
 
 The card moves `specifier` -> `coder` -> `cleaner` -> `architect` -> `hardender` -> `QA`, then to Done. Cleaner also sends a merge-only copy back to coder. Architect and QA also send merge-only copies to every earlier role. Use this branch when you want each review and verification concern owned by a separate agent.
 
