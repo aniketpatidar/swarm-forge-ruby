@@ -12,7 +12,6 @@
             [ready-for-next-guard]
             [stop-handoff-daemon]
             [swarm-handoff]
-            [swarm-tool]
             [swarm-window-watchdog]
             [swarmforge]))
 
@@ -291,6 +290,3 @@
 
 (deftest dashboard-request-helpers
   (is (string? pack-dashboard-request/usage-text)))
-
-(deftest swarm-tool-usage
-  (is (fn? swarm-tool/-main)))
